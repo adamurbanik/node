@@ -1,3 +1,4 @@
+//****** learnyounode *******//
 'use strict'
 //1
 // console.log(process.argv)
@@ -158,42 +159,36 @@
 
 
 //13
-function callback(request, response) {
-  // if (request !== 'GET') return;
+// function convertTime(time) {
+//   let date = new Date(time);
+//   return {
+//     "hour": date.getHours(),
+//     "minute": date.getMinutes(),
+//     "second": date.getSeconds()
+//   }
+// }
 
-  let contentUrl = url.parse(request.url, true);
-  // console.log(contentUrl.query.iso);
+// function unixTime(time) {
+//   let date = new Date(time);
+//   return {
+//     'unixtime': date.getTime()
+//   }
+// }
 
-  let date = new Date(contentUrl.query.iso);
-  // console.log(date);
+// function callback(request, response) {
+//   let resObj = '';
+//   let contentUrl = url.parse(request.url, true);
+//   if (contentUrl.pathname == '/api/parsetime') resObj = convertTime(contentUrl.query.iso);
+//   else if (contentUrl.pathname === '/api/unixtime') resObj = unixTime(contentUrl.query.iso);
 
-  // let all = '';
-  // request.on('data', function (data) {
-  //   all += 
-  // })
+//   console.log(resObj);
 
-  response.on('end', function (data) {
-    response.end({
-      "hour": date.getHours(),
-      "minute": date.getMinutes(),
-      "second": date.getSeconds()
-    });
+//   response.writeHead(200, { 'Content-Type': 'application/json' })
+//   response.end(JSON.stringify(resObj));
+// }
 
-  })
+// let url = require('url');
+// let http = require('http');
+// let server = http.createServer(callback);
+// server.listen(process.argv[2]);
 
-
-}
-
-let url = require('url');
-let http = require('http');
-let server = http.createServer(callback);
-server.listen(process.argv[2]);
-
-
-
-
-    //  date.getFullYear()  
-    //  date.getMonth()     // starts at 0  
-    //  date.getDate()      // returns the day of month  
-    //  date.getHours()  
-    //  date.getMinutes()  

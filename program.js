@@ -1,194 +1,168 @@
-//****** learnyounode *******//
-'use strict'
-//1
-// console.log(process.argv)
+// ******* tower-of-babel ****** //
+'use strict';
 
+//1
+// console.log(`Hello ${process.argv[2]}`);
 
 //2
-// var sum = 0;
-// for(var i = 2; i < process.argv.length; i++) {
-//   sum += Number(process.argv[i]);
+// class Character {
+//   constructor(x, y) {
+//     this.x = x;
+//     this.y = y;
+//     this.health_ = 100;
+//   }
+
+//   damage() {
+//     this.health_ = this.health_ - 10;
+//   }
+
+//   getHealth() {
+//     return this.health_;
+//   }
+
+//   toString() {
+//     return "x: " + this.x + " y: " + this.y + " health: " + this.getHealth();
+//   }
 // }
 
-// console.log(sum);
+// var x = process.argv[2];
+// var y = process.argv[3];
+// var character = new Character(+x, +y);
+// character.damage();
+// console.log(character.toString());
 
 
 //3
-// var fs = require('fs');
-// var buffer = fs.readFileSync(process.argv[2]).toString();
+// class Character {
+//   constructor(x, y) {
+//     this.x = x;
+//     this.y = y;
+//     this.health_ = 100;
+//   }
 
-// buffer = buffer.split('\n');
-// console.log(buffer.length - 1);
+//   damage() {
+//     this.health_ = this.health_ - 10;
+//   }
+
+//   getHealth() {
+//     return this.health_;
+//   }
+
+//   toString() {
+//     return "x: " + this.x + " y: " + this.y + " health: " + this.getHealth();
+//   }
+// }
+
+// class Player extends Character{
+//   constructor(x, y, name) {
+//     super(x, y);
+//     this.name = name;
+//   }
+
+//   move(dx, dy) {
+//     this.x += dx;
+//     this.y += dy;
+//   };
+
+//   toString() {
+//     return "name: " + this.name + " " + super.toString();
+//   };
+
+// }
+
+// var x = process.argv[2];
+// var y = process.argv[3];
+// var name = process.argv[4];
+// var character = new Character(+x, +y);
+// character.damage();
+// console.log(character.toString());
+// var player = new Player(+x, +y, name);
+// player.damage();
+// player.move(7, 8);
+// console.log(player.toString());
 
 
 //4
-// var fs = require('fs');
-// fs.readFile(process.argv[2], 'utf8', function(error, data) {
-//   if (error) return;
+// import * as PI from './math.js';
 
-//   var buffer = data.toString();
-//   buffer = buffer.split('\n');
+// import {PI} from './math.js';
+// import {_sqrt} from './math.js';
+// import {sqrt} from './math.js';
+// import {square} from './math.js';
+// console.log(PI);
+// console.log(_sqrt);
+// console.log(sqrt);
+// console.log(square);
 
-//   console.log(buffer.length - 1);
-// })
+// var arg1 = process.argv[2];
+// var arg2 = process.argv[3];
+
+// console.log(PI);
+// console.log(sqrt(+arg1));
+// console.log(square(+arg2));
 
 
-//5 node program.js /home/jaalinoe/code/node js
-// var fs = require('fs');
-// var path = require('path');
-// fs.readdir(process.argv[2], function (error, list) {
-//   if (error) return;
-
-//   var ext = process.argv[3];
-//   list = list.filter(function (item) {
-//     var fileExtension = path.extname(item).slice(1);
-//     if (fileExtension == ext) return item;
-//   });
-//   list.forEach((item) => console.log(item));
-
-// })
+//5
 
 //6
-// var myModule = require('./module-program.js');
-// myModule(process.argv[2], process.argv[3], function (error, list) {
-//   if (error) console.log('prints error');
-//   list.forEach((item) => console.log(item));
-// });
+// This variable `a` should be accessible outside of the block scope.
+// var a = 5;
+
+// // This variable `b` should not be reassignable.
+// const b = process.argv[2];
+
+// if (a === 5) {
+//   // This variable `c` should only be valid in this block.
+//   let  c = 4;
+//   console.log(c);  // 4
+
+//   // This variable `b` should only be valid in this block and should not be reassignable.
+//   const b = 8;
+//   console.log(b); // 8
+// }
+
+// console.log(a); // 5
+// console.log(b);
+// try {
+//   // Trying to change the value of `c`
+//   c = 1000;
+// } catch (e) {
+//   // but an `c is not defined` error should occur.
+//   console.log(e);
+// }
 
 
 //7
-// var http = require('http');
-// http.get(process.argv[2], function (res, utf8) {
-//   res.on('data', function (data) { console.log(data.toString()) });
-// })
-
-// //or
-// var http = require('http')
-// http.get(process.argv[2], function (response) {
-//   response.setEncoding('utf8')
-//   response.on('data', console.log)
-//   response.on('error', console.error)
-// }).on('error', console.error)  
+// var evenOrOdd = +process.argv[2];
+// var evenOrOddKey = evenOrOdd % 2 === 0 ? "even" : "odd";
+// var sum = +process.argv[3] + evenOrOdd;
+// var obj = {
+//   [evenOrOddKey]: evenOrOdd,
+//   [sum]: sum
+// }
+// console.log(obj);
 
 
 //8
-// var bl = require('bl');
-// var http = require('http');
+const max = process.argv[2]; //console.log('max', max)
+let FizzBuzz = {
+  [Symbol.iterator]() {
+    let count = 1, result = '';
+    return {
+      next() {
+        if (count > max) return { done: true }
+        result = '';
+        if (count % 3 === 0) result += 'Fizz';
+        if (count % 5 === 0) result += 'Buzz';
+        if (result === '') result = count;
+        count++;
+        return { done: false, value: result }
+      }
+    }
+  }
+}
 
-// http.get(process.argv[2], function (response) {
-//   response.pipe(bl(function (err, data) {
-//     console.log(data.toString().length);
-//     console.log(data.toString());    
-//   }))
-// });
-
-
-//9 node program.js 'http://www.onet.pl/' 'http://www.onet.pl/' 'http://www.onet.pl/'
-// var bl = require('bl');
-// var http = require('http');
-// var dataSum = '';
-// var output = [];
-// var count = 0;
-
-// function print(array) {
-//   for (let i = 0; i < array.length; i++) {
-//     console.log(array[i]);
-//   }
-// }
-
-
-// for (let index = 2, i = 0; i < 3; index++ , i++) {
-//   http.get(process.argv[index], function (response) {
-//     response.pipe(bl(function (error, data) {
-//       output[i] = data.toString();
-//       count++;
-//       if (count >= 3) {
-//         print(output);
-//       }
-//     }))
-//   })
-// }
-
-
-//10
-// function listener(socket) {
-//   let date1 = new Date();
-//   let date = new Date(date1.getTime() + 1000 * 60 * 60 * 2).toISOString().replace('T', ' ').substr(0, 16) + '\n';
-//   socket.write(date);
-//   socket.end();
-//   console.log(date);
-// }
-
-// let net = require('net');
-// let server = net.createServer(listener);
-// server.listen(process.argv[2]);
-
-
-//11
-// function callback(request, response) {
-//   let readStream = fs.createReadStream(process.argv[3]);
-//   readStream.pipe(response);
-// }
-
-// let fs = require('fs');
-// let http = require('http');
-// let server = http.createServer(callback);
-// server.listen(process.argv[2]);
-
-
-//12
-// function callback(request, response) { 
-//   if (request.method !== 'POST') return;
-
-//   let all = '';
-//   request.on('data', function(data) { 
-//     all += data.toString().toUpperCase();
-//   })
-
-//   request.on('end', function() {
-//     response.end(all);
-//   })
-// }
-
-// var map = require('through2-map');
-// var bl = require('bl');
-// let fs = require('fs');
-// let http = require('http');
-// let server = http.createServer(callback);
-// server.listen(process.argv[2]);
-
-
-//13
-// function convertTime(time) {
-//   let date = new Date(time);
-//   return {
-//     "hour": date.getHours(),
-//     "minute": date.getMinutes(),
-//     "second": date.getSeconds()
-//   }
-// }
-
-// function unixTime(time) {
-//   let date = new Date(time);
-//   return {
-//     'unixtime': date.getTime()
-//   }
-// }
-
-// function callback(request, response) {
-//   let resObj = '';
-//   let contentUrl = url.parse(request.url, true);
-//   if (contentUrl.pathname == '/api/parsetime') resObj = convertTime(contentUrl.query.iso);
-//   else if (contentUrl.pathname === '/api/unixtime') resObj = unixTime(contentUrl.query.iso);
-
-//   console.log(resObj);
-
-//   response.writeHead(200, { 'Content-Type': 'application/json' })
-//   response.end(JSON.stringify(resObj));
-// }
-
-// let url = require('url');
-// let http = require('http');
-// let server = http.createServer(callback);
-// server.listen(process.argv[2]);
+for (var n of FizzBuzz) {
+  console.log(n);
+}
 

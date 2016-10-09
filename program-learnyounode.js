@@ -6,14 +6,14 @@ console.log(process.argv)
 
 //2
 var sum = 0;
-for(var i = 2; i < process.argv.length; i++) {
+for (var i = 2; i < process.argv.length; i++) {
   sum += Number(process.argv[i]);
 }
 
 console.log(sum);
 
 
-//3
+//3 
 var fs = require('fs');
 var buffer = fs.readFileSync(process.argv[2]).toString();
 
@@ -23,7 +23,7 @@ console.log(buffer.length - 1);
 
 //4
 var fs = require('fs');
-fs.readFile(process.argv[2], 'utf8', function(error, data) {
+fs.readFile(process.argv[2], 'utf8', function (error, data) {
   if (error) return;
 
   var buffer = data.toString();
@@ -68,7 +68,7 @@ http.get(process.argv[2], function (response) {
   response.setEncoding('utf8')
   response.on('data', console.log)
   response.on('error', console.error)
-}).on('error', console.error)  
+}).on('error', console.error)
 
 
 //8
@@ -78,7 +78,7 @@ var http = require('http');
 http.get(process.argv[2], function (response) {
   response.pipe(bl(function (err, data) {
     console.log(data.toString().length);
-    console.log(data.toString());    
+    console.log(data.toString());
   }))
 });
 
@@ -137,15 +137,15 @@ server.listen(process.argv[2]);
 
 
 //12
-function callback(request, response) { 
+function callback(request, response) {
   if (request.method !== 'POST') return;
 
   let all = '';
-  request.on('data', function(data) { 
+  request.on('data', function (data) {
     all += data.toString().toUpperCase();
   })
 
-  request.on('end', function() {
+  request.on('end', function () {
     response.end(all);
   })
 }

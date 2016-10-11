@@ -115,8 +115,30 @@
 
 
 //9
-var ws = require('websocket-stream');
-var stream = ws('ws://localhost:8099');
-stream.end('hello\n');
+// var ws = require('websocket-stream');
+// var stream = ws('ws://localhost:8099');
+// stream.end('hello\n');
+
+
+//10
+let trumpet = require('trumpet');
+let through = require('through2');
+
+let convertedStream = through(convert);
+
+let tr = trumpet();
+
+function convert(buffer, encoding, next) {
+  let data = buffer.toString().toUpperCase();
+  this.push(data);
+  next();
+}
+
+process.stdin.pipe(tr).pipe(process.stdout);
+let trStream = tr.select('.loud').createStream();
+trStream.pipe(convertedStream).pipe(trStream);
+
+
+//
 
 

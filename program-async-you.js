@@ -175,10 +175,10 @@ async.series({
   console.log(results);
 });
 
-// output
-//  "{ firstPost: undefined,"           !=    "{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}"
-//  "  secondGet: '{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}' }" !=    ""                                 
-//  ""                                  !=             
+output
+ "{ firstPost: undefined,"           !=    "{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}"
+ "  secondGet: '{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}' }" !=    ""                                 
+ ""                                  !=             
 
 
 //6

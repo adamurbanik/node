@@ -105,7 +105,7 @@ console.log(square(+arg2));
 //5
 
 //6
-This variable `a` should be accessible outside of the block scope.
+// This variable `a` should be accessible outside of the block scope.
 var a = 5;
 
 // This variable `b` should not be reassignable.

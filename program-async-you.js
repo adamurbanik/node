@@ -6,10 +6,8 @@ var http = require('http');
 var fs = require('fs');
 var fileContent = fs.readFileSync(process.argv[2]).toString();
 
-http.get(fileContent, function (res) {
-  res.on('data', function (data) {
-    console.log(data.toString());
-  })
+http.get(fileContent, (res) => {
+  res.on('data', (data) => console.log(data.toString()))
 })
 
 // or
@@ -19,31 +17,24 @@ var fs = require('fs')
 
 async.waterfall([
   function (done) {
-    fs.readFile(process.argv[2], function (err, data) {
+    fs.readFile(process.argv[2], (err, data) => {
       if (err) return done(err);
       done(null, data, 'result2')
     });
   },
 
-  function (data, data2, done) { 
+  function (data, data2, done) {
     var body = '';
-    http.get(data.toString().trimRight(), function (res) {
-      res.on('data', function (chunk) {
-        body += chunk.toString();
-      });
-
-      res.on('end', function (chunk) {
-        done(null, body);
-      });
-    }).on('error', function (e) {
-      done(e);
-    });
+    http.get(data.toString().trimRight(), (res) => {
+      res.on('data', (chunk) => body += chunk.toString());
+      res.on('end', (chunk) => done(null, body));
+    }).on('error', (e) => done(e));
   }
 ],
-function (err, result) {
-  if (err) return console.error(err);
-  console.log(result);
-}
+  (err, result) => {
+    if (err) return console.error(err);
+    console.log(result);
+  }
 );
 
 
@@ -68,12 +59,10 @@ async.series({
       .on('error', (e) => done(e));
   },
   requestTwo: (done) => {
-    let body = '';    
-    http.get(url2, function (res) { 
+    let body = '';
+    http.get(url2, (res) => {
       res.on('data', (data) => body += data);
-      res.on('end', (data) => {
-        done(null, body);
-      });
+      res.on('end', (data) => done(null, body));
     })
       .on('error', (e) => done(e));
   },
@@ -84,15 +73,13 @@ async.series({
 let http = require('http'),
   async = require('async');
 
-async.each([process.argv[2], process.argv[3]], function(item, done) {
-  http.get(item, function(res) {
-    res.on('data', (data) => body+= data);
-    res.on('end', (data) => {
-      done(null, body)
-    })
+async.each([process.argv[2], process.argv[3]], (item, done) => {
+  http.get(item, (res) => {
+    res.on('data', (data) => body += data);
+    res.on('end', (data) => done(null, body))
   })
-  .on('error', (e) => done(e));
-}, (err, results)=> {
+    .on('error', (e) => done(e));
+}, (err, results) => {
   if (err) console.log(err);
   if (results) console.log(results);
 })
@@ -101,16 +88,14 @@ async.each([process.argv[2], process.argv[3]], function(item, done) {
 let http = require('http'),
   async = require('async');
 
-async.map(process.argv.slice(2), function(item, done) {
+async.map(process.argv.slice(2), (item, done) => {
   let body = '';
-  http.get(item, function(res) {
-    res.on('data', (data) => body+= data);
-    res.on('end', (data) => {
-      done(null, body)
-    })
+  http.get(item, (res) => {
+    res.on('data', (data) => body += data);
+    res.on('end', (data) => done(null, body))
   })
-  .on('error', (e) => done(e));
-}, (err, results)=> {
+    .on('error', (e) => done(e));
+}, (err, results) => {
   if (err) console.log(err);
   if (results) console.log(results);
 })
@@ -136,11 +121,11 @@ async.series({
         path: '/users/create',
         method: 'POST'
       }
-      var request = http.request(opts, function (response) {
-        response.on('data', function (chunk) {
+      var request = http.request(opts, (response) => {
+        response.on('data', (chunk) => {
           body += chunk;
         });
-        response.on('end', function (chunk) {
+        response.on('end', (chunk) => {
           callback();
         });
       });
@@ -150,11 +135,11 @@ async.series({
       request.end();
     }
 
-    async.times(5, function (n, next) {
-      postUser(++n, function (result) { //console.log(result)
+    async.times(5, (n, next) => {
+      postUser(++n, (result) => { //console.log(result)
         next(result);
       })
-    }, function (err, result) { //console.log(result)
+    }, (err, result) => { //console.log(result)
       if (err) return done(err);
       done(null);
     })
@@ -162,7 +147,7 @@ async.series({
 
   secondGet: (done) => {
     let url = 'http://' + hostName + ':' + port + '/users';
-    http.get(url, function (response) {
+    http.get(url, (response) => {
       let body = '';
       response.on('data', (data) => body += data.toString());
       response.on('end', (data) => done(null, body));
@@ -176,9 +161,9 @@ async.series({
 });
 
 output
- "{ firstPost: undefined,"           !=    "{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}"
- "  secondGet: '{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}' }" !=    ""                                 
- ""                                  !=             
+"{ firstPost: undefined," != "{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}"
+"  secondGet: '{\"users\":[{\"user_id\":1},{\"user_id\":2},{\"user_id\":3},{\"user_id\":4},{\"user_id\":5}]}' }" != ""
+"" !=
 
 
 //6
@@ -187,22 +172,18 @@ var async = require('async');
 
 let param = process.argv[2];
 
-// console.log(url);
-
-async.reduce(['one', 'two', 'three'], 0, function (memo, item, callback) {
+async.reduce(['one', 'two', 'three'], 0, (memo, item, callback) => {
   let url = `${param}?number=${item}`;
-  http.get(url, function (res) {
+  http.get(url, (res) => {
     let body = '';
-    res.on('data', function (data) {
-      body += data.toString();
-    })
-    res.on('end', function () { 
+    res.on('data', (data) => body += data.toString())
+    res.on('end', () => {
       let result = memo + parseInt(body, 10);
       callback(null, result);
     })
   })
 
-}, function (error, result) {
+}, (error, result) => {
   console.log(result);
 });
 
@@ -217,14 +198,12 @@ var count = 0;
 let data = '';
 
 async.whilst(
-  function () { return data.trim() !== 'meerkat'},
-  function (callback) {
+  () => { return data.trim() !== 'meerkat' },
+  (callback) => {
     let body = '';
-    http.get(param, function (response) {
-      response.on('data', function (chunk) {
-        body += chunk.toString();
-      });
-      response.on('end', function () {
+    http.get(param, (response) => {
+      response.on('data', (chunk) => body += chunk.toString());
+      response.on('end', () => {
         data = body;
         count++;
         callback();
@@ -232,7 +211,7 @@ async.whilst(
     })
 
   },
-  function (err, n) {
+  (err, n) => {
     console.log(count);
   }
 );

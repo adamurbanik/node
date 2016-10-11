@@ -23,7 +23,7 @@ console.log(buffer.length - 1);
 
 //4
 var fs = require('fs');
-fs.readFile(process.argv[2], 'utf8', function (error, data) {
+fs.readFile(process.argv[2], 'utf8', (error, data) => {
   if (error) return;
 
   var buffer = data.toString();
@@ -36,11 +36,11 @@ fs.readFile(process.argv[2], 'utf8', function (error, data) {
 //5 node program.js /home/jaalinoe/code/node js
 var fs = require('fs');
 var path = require('path');
-fs.readdir(process.argv[2], function (error, list) {
+fs.readdir(process.argv[2], (error, list) => {
   if (error) return;
 
   var ext = process.argv[3];
-  list = list.filter(function (item) {
+  list = list.filter((item) {
     var fileExtension = path.extname(item).slice(1);
     if (fileExtension == ext) return item;
   });
@@ -50,7 +50,7 @@ fs.readdir(process.argv[2], function (error, list) {
 
 //6
 var myModule = require('./module-program.js');
-myModule(process.argv[2], process.argv[3], function (error, list) {
+myModule(process.argv[2], process.argv[3], (error, list) => {
   if (error) console.log('prints error');
   list.forEach((item) => console.log(item));
 });
@@ -58,13 +58,11 @@ myModule(process.argv[2], process.argv[3], function (error, list) {
 
 //7
 var http = require('http');
-http.get(process.argv[2], function (res, utf8) {
-  res.on('data', function (data) { console.log(data.toString()) });
-})
+http.get(process.argv[2], (res, utf8) => res.on('data', (data) => { console.log(data.toString()) }))
 
 //or
 var http = require('http')
-http.get(process.argv[2], function (response) {
+http.get(process.argv[2], (response) => {
   response.setEncoding('utf8')
   response.on('data', console.log)
   response.on('error', console.error)
@@ -75,8 +73,8 @@ http.get(process.argv[2], function (response) {
 var bl = require('bl');
 var http = require('http');
 
-http.get(process.argv[2], function (response) {
-  response.pipe(bl(function (err, data) {
+http.get(process.argv[2], (response) => {
+  response.pipe(bl((err, data) => {
     console.log(data.toString().length);
     console.log(data.toString());
   }))
@@ -98,13 +96,11 @@ function print(array) {
 
 
 for (let index = 2, i = 0; i < 3; index++ , i++) {
-  http.get(process.argv[index], function (response) {
-    response.pipe(bl(function (error, data) {
+  http.get(process.argv[index], (response) => {
+    response.pipe(bl((error, data) => {
       output[i] = data.toString();
       count++;
-      if (count >= 3) {
-        print(output);
-      }
+      if (count >= 3) print(output);
     }))
   })
 }
@@ -141,11 +137,11 @@ function callback(request, response) {
   if (request.method !== 'POST') return;
 
   let all = '';
-  request.on('data', function (data) {
+  request.on('data', (data)=> {
     all += data.toString().toUpperCase();
   })
 
-  request.on('end', function () {
+  request.on('end', ()=> {
     response.end(all);
   })
 }

@@ -36,7 +36,7 @@
 
 
 //5
-var update = function (name, age, tShirtSize) { 
+var update = function (name, age, tShirtSize) {
   this.name = name; //console.log(this.name)
   this.age = age;
   this.tShirtSize = tShirtSize;
@@ -46,21 +46,15 @@ var update = function (name, age, tShirtSize) {
 
 var person = { name: 'Kishor', age: 28, tShirtSize: 'L' };
 
-var caller = function (object, method, param1, param2, param3) {
-  method.call(object, param1, param2, param3);
-};
+var caller = (object, method, param1, param2, param3)=> method.call(object, param1, param2, param3);
 
 // caller(person, update, 'Sharma', 29, 'XL');
 
 // console.log(person) // => person.name = Sharma, person.age = 29 and person.tShirtSize = XL
 
 var callAndApply = {
-  caller: function (object, method, param1, param2, param3) { //console.log(object, method, param1, param2, param3)
-    method.call(object, param1, param2, param3);
-  },
-  applier: function (object, method, argumentsArr) {
-    method.apply(object, argumentsArr);
-  }
+  caller: (object, method, param1, param2, param3) => method.call(object, param1, param2, param3),
+  applier: (object, method, argumentsArr) => method.apply(object, argumentsArr)
 };
 module.exports = callAndApply;
 

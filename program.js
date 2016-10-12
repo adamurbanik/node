@@ -1,41 +1,41 @@
-***************** Currying in JavaScript *****
-'use strict'
+// ***************** Currying in JavaScript *****
+//'use strict'
 
-1 
-var identity = function (args) {
-  return args;
-};
-module.exports = identity;
-
-
-2 
-var binary = function (firstArg, secondArg) {
-  return firstArg + secondArg ;
-};
-module.exports = binary;
+// 1 
+// var identity = function (args) {
+//   return args;
+// };
+// module.exports = identity;
 
 
-3
-const unary1 = (unary1Param) => (unary2Param) => unary1Param + unary2Param
-
-module.exports = unary1;
-
-
-console.log(unary1(2)(4))
+//2 
+// var binary = function (firstArg, secondArg) {
+//   return firstArg + secondArg ;
+// };
+// module.exports = binary;
 
 
-4 
-let total = 0;
-let unary = (param) => {
-  if (!param) return total;
-  total += param;
-  return unary;
-}
+//3
+// const unary1 = (unary1Param) => (unary2Param) => unary1Param + unary2Param
 
-module.exports = unary;
+// module.exports = unary1;
 
 
-5
+// console.log(unary1(2)(4))
+
+
+//4 
+// let total = 0;
+// let unary = (param) => {
+//   if (!param) return total;
+//   total += param;
+//   return unary;
+// }
+
+// module.exports = unary;
+
+
+//5
 var update = function (name, age, tShirtSize) { 
   this.name = name; //console.log(this.name)
   this.age = age;
@@ -56,16 +56,16 @@ var caller = function (object, method, param1, param2, param3) {
 
 var callAndApply = {
   caller: function (object, method, param1, param2, param3) { //console.log(object, method, param1, param2, param3)
-    update.call(object, param1, param2, param3);
+    method.call(object, param1, param2, param3);
   },
   applier: function (object, method, argumentsArr) {
-    update.apply(object, argumentsArr);
+    method.apply(object, argumentsArr);
   }
 };
 module.exports = callAndApply;
 
 
-6
+// 6
 
 
 

@@ -1,144 +1,71 @@
-// *********************STREAM ADVENTURE *****
-'use strict';
+***************** Currying in JavaScript *****
+'use strict'
 
-//1
-// console.log('beep boop');
-
-
-//2
-// var fs = require('fs');
-
-// let param = process.argv[2];
-
-// fs.createReadStream(param)
-//   .pipe(process.stdout);
+1 
+var identity = function (args) {
+  return args;
+};
+module.exports = identity;
 
 
-//3
-// let data = process.stdin
-//   .pipe(process.stdout);
+2 
+var binary = function (firstArg, secondArg) {
+  return firstArg + secondArg ;
+};
+module.exports = binary;
 
 
-//4
-// var through = require('through2');
-// var stream = through(write, end);
+3
+const unary1 = (unary1Param) => (unary2Param) => unary1Param + unary2Param
+
+module.exports = unary1;
 
 
-// function write(buffer, encoding, next) {
-//   let data = buffer.toString().toUpperCase();
-//   this.push(data);
-//   next();
-// }
-
-// function end(done) {
-//   done();
-// }
-
-// process.stdin.pipe(stream).pipe(process.stdout);
+console.log(unary1(2)(4))
 
 
-//5
-// var split = require('split');
-// var through = require('through2');
-
-// var count = 1;
-
-// function write(buffer, encoding, next) {
-//   let line = (count % 2 === 0) ? buffer.toString().toUpperCase() + '\n' : buffer.toString().toLowerCase() + '\n';
-//   this.push(line);
-//   count ++ ;
-//   next();
-// }
-
-// function end(done) {
-//   done();
-// }
-
-// let stream = through(write);
-
-// process.stdin
-//   .pipe(split())
-//   .pipe(stream)
-//   .pipe(process.stdout);
-
-
-//6
-// var concat = require('concat-stream');
-
-// function concatText(text) {
-//   text = text.toString().split('').reverse().join('');
-//   console.log(text);
-// }
-
-// process.stdin
-//   .pipe(concat(concatText));
-
-
-//7
-// let http = require('http');
-// let through = require('through2');
-
-// function listener(req, res) {
-//   console.log(req.url)
-//   if (req.method === 'POST') {
-//     let data = '';
-//     req.on('data', (chunk) => data += chunk.toString().toUpperCase());
-//     req.on('end', () => res.end(data));
-//   }
-// }
-
-// let server = http.createServer(listener);
-// server.listen(process.argv[2]);
-
-// **** curl -XPOST http://localhost:3000 -d 'a=poszly konie' -d 'b=po betonie'
-
-// or the reference solution
-// var http = require('http');
-// var through = require('through2');
-
-// var server = http.createServer(function (req, res) {
-//   if (req.method === 'POST') {
-//     req.pipe(through(function (buf, _, next) {
-//       this.push(buf.toString().toUpperCase());
-//       next();
-//     })).pipe(res);
-//   }
-//   else res.end('send me a POST\n');
-// });
-// server.listen(parseInt(process.argv[2]));
-
-
-//8
-// var request = require('request');
-// var r = request.post('http://localhost:8099');
-// process.stdin.pipe(r).pipe(process.stdout);
-
-
-//9
-// var ws = require('websocket-stream');
-// var stream = ws('ws://localhost:8099');
-// stream.end('hello\n');
-
-
-//10
-let trumpet = require('trumpet');
-let through = require('through2');
-
-let convertedStream = through(convert);
-
-let tr = trumpet();
-
-function convert(buffer, encoding, next) {
-  let data = buffer.toString().toUpperCase();
-  this.push(data);
-  next();
+4 
+let total = 0;
+let unary = (param) => {
+  if (!param) return total;
+  total += param;
+  return unary;
 }
 
-process.stdin.pipe(tr).pipe(process.stdout);
-let trStream = tr.select('.loud').createStream();
-trStream.pipe(convertedStream).pipe(trStream);
+module.exports = unary;
 
 
-//
+5
+var update = function (name, age, tShirtSize) { 
+  this.name = name; //console.log(this.name)
+  this.age = age;
+  this.tShirtSize = tShirtSize;
+
+  console.log(this.name, this.age, this.tShirtSize)
+};
+
+var person = { name: 'Kishor', age: 28, tShirtSize: 'L' };
+
+var caller = function (object, method, param1, param2, param3) {
+  method.call(object, param1, param2, param3);
+};
+
+// caller(person, update, 'Sharma', 29, 'XL');
+
+// console.log(person) // => person.name = Sharma, person.age = 29 and person.tShirtSize = XL
+
+var callAndApply = {
+  caller: function (object, method, param1, param2, param3) { //console.log(object, method, param1, param2, param3)
+    update.call(object, param1, param2, param3);
+  },
+  applier: function (object, method, argumentsArr) {
+    update.apply(object, argumentsArr);
+  }
+};
+module.exports = callAndApply;
+
+
+6
+
 
 

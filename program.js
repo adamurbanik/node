@@ -58,6 +58,8 @@ var callAndApply = {
 };
 module.exports = callAndApply;
 
+callAndApply.caller(person, update, 'Sharma', 29, 'XL');
+callAndApply.applier(person, update, ['Sharma', 29, 'XL'])
 
 // 6
 

@@ -245,9 +245,38 @@ var stream = crypto.createDecipher('aes256', process.argv[2]);
 process.stdin.pipe(stream).pipe(process.stdout);
 
 15
+'use strict'
 var crypto = require('crypto');
 var zlib = require('zlib');
+var parseFile = require('tar').Parse();
+var through = require('through2');
 
-var decipherStream = crypto.createDecipher('aes256', process.argv[2], process.argv[3]);
+var stream = through(write);
 
-var streamGunZIP = zlib.createGunzip();
+function write(buffer, _, next) {
+  // console.log(buffer.toString() + ' ' + );
+  next();
+}
+
+parseFile.on('entry', (item) => {
+  if (item.type === 'File') {
+
+    var hash = crypto.createHash('md5', { encoding: 'hex' });
+    item.pipe(hash).pipe(through(function write(buffer, _, next) {
+      var line = buffer.toString() + ' ' + item.path;
+      console.log(line)
+      this.push(line);
+      next();
+    }));
+  }
+})
+
+process.stdin
+  .pipe(crypto.createDecipher(process.argv[2], process.argv[3]))
+  .pipe(zlib.createGunzip())
+  .pipe(parseFile)
+  // .pipe(process.stdout);
+
+
+
+

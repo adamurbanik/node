@@ -39,44 +39,27 @@ function cats(req, res) {
   function got(err, response) {
     var title = '<title>Optimizing Images!</title>';
     var cats = _.map(response.body.data, 'link');
-    // console.log(cats)
 
-    // iterate(cats)
-    //   .then((res) => console.log(res));
+    iterate(cats);
+  }
+
+
+  function iterate(cats) {
+    var deferred = Promise.defer();
+
     cats.forEach((item, index) => {
-      var base = path.basename(item); console.log(base)
+      var base = path.basename(item);
       http.get(item, function (resHttp) {
         gm(resHttp)
           .resize(100, 100) // set maximum image size
-          // .stream('jpg')        
-          .write(`./pictures/${base}`, function(err) {
+          .write(`./pictures/${base}`, (err)=> {
             if (err) return console.log(err);
-            console.log('done');
+            if (index === cats.length - 1) deferred.resolve('koty za ploty')
           })
       })
-      // if (index === cats.length - 1) return Promise.resolve();
     })
-    // .then(() => { console.log('promise 2') })
-
-    // res.end();
+    return deferred.promise;
   }
-
-  // function iterate(cats) {
-  //   var deferred = Promise.defer();
-
-  //   cats.forEach((item, index) => {
-  //     var base = path.basename(item);// console.log(base)
-  //     http.get(item, function (resHttp) {
-  //       gm(resHttp)
-  //         .resize(100, 100) // set maximum image size        
-  //         .noProfile() // remove exif data
-  //         .stream('jpg') // convert to jpg and avoid bloated gifs
-  //         .write(base)
-  //     })
-  //     // if (index === cats.length - 1) console.log(index)//deferred.resolve('masz te koty');
-  //   })
-  //   // return deferred.promise;
-  // }
 
 
 

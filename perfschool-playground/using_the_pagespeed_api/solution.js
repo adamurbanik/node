@@ -22,7 +22,7 @@ function home(req, res) {
   console.log('__dirname', __dirname)
   var file = path.join(__dirname, 'index.html');
   var index = fs.readFileSync(file, 'utf8');
-  res.send('spadaj');
+  res.send(index);
 }
 
 function insights(req, res) {

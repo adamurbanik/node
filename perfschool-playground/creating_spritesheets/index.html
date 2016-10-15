@@ -14,27 +14,32 @@
       }
       h1 { color: #8e44ad; font-size: 48px; }
       h3 { color: #c00; }
-      img {
+      span {
         background-color: rgba(255, 255, 255, 0.5);
         box-shadow: 0px 0px 25px #fff;
         border: 2px solid #fff;
         border-radius: 200px;
         display: inline-block;
       }
+      span:before {
+        display: block;
+        content: '';
+      }
     </style>
+    <link rel='stylesheet' href='/icons.css'>
   </head>
   <body>
     <h1>Creating <em>Spritesheets</em>!</h1>
     <h3>Here are some icons!</h3>
     <p>
-      <img src='/github.png' alt='' />
-      <img src='/slack.png' alt='' />
-      <img src='/chrome.png' alt='' />
-      <img src='/safari.png' alt='' />
-      <img src='/ie.png' alt='' />
-      <img src='/ff.png' alt='' />
-      <img src='/mongodb.png' alt='' />
-      <img src='/rockmelt.png' alt='' />
+      <span class='ic-github'></span>
+      <span class='ic-slack'></span>
+      <span class='ic-chrome'></span>
+      <span class='ic-safari'></span>
+      <span class='ic-ie'></span>
+      <span class='ic-ff'></span>
+      <span class='ic-mongodb'></span>
+      <span class='ic-rockmelt'></span>
     </p>
   </body>
 </html>

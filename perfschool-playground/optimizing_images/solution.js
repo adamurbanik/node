@@ -1,3 +1,6 @@
+'use strict'
+// process.setMaxListeners(100);
+
 var IMGUR_CLIENT_ID = '98128cfaffd30db';
 
 var _ = require('lodash');
@@ -16,8 +19,11 @@ var fs = require('fs');
 var https = require('https');
 var http = require('http');
 
+var through = require('through2');
+
+
 var im = require('imagemagick');
-Canvas = require('canvas');
+// Canvas = require('canvas');
 
 app.get('/cats', cats);
 app.listen(port, listening);
@@ -36,40 +42,76 @@ function cats(req, res) {
   };
   request(options, got);
 
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  // res.writeHead(200, {'Content-Type': 'text/event-stream'});
+
   function got(err, response) {
     var title = '<title>Optimizing Images!</title>';
     var cats = _.map(response.body.data, 'link');
 
     iterate(cats);
-  }
+    // .then(resIterate => {
+    //   console.log('wyszedlem z primisa');
+    //   console.log('res.length', resIterate.length);
+    //   console.log('resIterate[0]', resIterate[0]);
 
+    //   resIterate[0].pipe(res);
+    // });
+  }
 
   function iterate(cats) {
     var deferred = Promise.defer();
 
-    cats.forEach((item, index) => {
-      var base = path.basename(item);
-      http.get(item, function (resHttp) {
+    let index = 0;
+    cats.forEach((item) => {
+      (index <= cats.length) ? processItem(item) : cb();
+
+    })
+
+    function cb() {
+      res.end();
+    }
+
+    function processItem(item) {
+      console.log(index, cats.length);
+      http.get(item, (resHttp) => {
         gm(resHttp)
           .resize(100, 100) // set maximum image size
-          .write(`./pictures/${base}`, (err)=> {
-            if (err) return console.log(err);
-            if (index === cats.length - 1) deferred.resolve('koty za ploty')
-          })
+          .stream('jpg', processStream)
       })
-    })
-    return deferred.promise;
-  }
-
-
-
-  function random(cats, amount) { //console.log(amount)
-    var result = [];
-    while (amount--) {
-      result.push.apply(result, cats.splice(Math.floor(Math.random() * cats.length), 1));
     }
-    return result;
+
+    const processStream = (err, stdout, stderr) => {
+      if (err) return console.log(err);
+      
+      var content = stdout.toString();     //store image into content + //encode to base64
+      var imagedata = new Buffer(content).toString('base64');    
+      res.write('<img src="data:image/gif;base64,' + imagedata + '">');//send image
+
+      stdout.pipe(res, { end: false });
+      stdout.once('end', function () {
+        index++;
+      })
+    }
   }
+
+
+  // function iterate(cats) {
+  //   var deferred = Promise.defer();
+
+  //   cats.forEach((item, index) => {
+  //     var base = path.basename(item);
+  //     http.get(item, function (resHttp) {
+  //       gm(resHttp)
+  //         .resize(100, 100) // set maximum image size
+  //         .write(`./pictures/${base}`, (err)=> {
+  //           if (err) return console.log(err);
+  //           if (index === cats.length - 1) deferred.resolve('koty za ploty')
+  //         })
+  //     })
+  //   })
+  //   return deferred.promise;
+  // }
 
   function toImageTag(cat) {
     return util.format(`<img src=${cat} />`);

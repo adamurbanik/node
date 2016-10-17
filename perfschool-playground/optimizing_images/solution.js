@@ -4,26 +4,20 @@
 var IMGUR_CLIENT_ID = '98128cfaffd30db';
 
 var _ = require('lodash');
-// var gm = require('gm');
 var gm = require('gm').subClass({ imageMagick: true });
-var url = require('url');
 var path = require('path');
 var util = require('util');
 var request = require('request');
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 7777;
-
-var concat = require('concat-stream');
-var fs = require('fs');
-var https = require('https');
 var http = require('http');
 
-var through = require('through2');
-
-
-var im = require('imagemagick');
-// Canvas = require('canvas');
+// var concat = require('concat-stream');
+// var fs = require('fs');
+// var https = require('https');
+// var through = require('through2');
+// var im = require('imagemagick');
 
 app.get('/cats', cats);
 app.listen(port, listening);

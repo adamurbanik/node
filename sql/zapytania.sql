@@ -68,3 +68,88 @@ insert into zamowienia (idzamowienia, data, status, idklienta, idksiazki) values
 insert into ksiazki (idksiazki, nazwiskoautora, tytul) values(null, 'Grębosz', 'Symfonia')
 insert into klienci values(null, 'Marilyn', 'Monroe', 'Los Angeles'), (null, 'John' , 'Wayne', 'Los Angeles')
 insert into klienci set idklienta=null, imie='Steve', nazwisko='McQueen', miejscowosc='Los Angeles'
+
+
+
+
+*** SQLite *****
+= equals
+!= not equals
+> greater than
+< less than
+>= greater than or equal to
+<= less than or equal to
+
+SELECT * FROM celebs;
+
+UPDATE celebs SET twitter_handle = '@taylorswift13' WHERE id = 4; 
+
+DELETE FROM celebs WHERE twitter_handle IS NULL;
+
+SELECT * FROM movies WHERE name LIKE 'Se_en';
+
+SELECT * FROM movies WHERE name BETWEEN 'A' AND 'J';
+
+SELECT * FROM movies WHERE year BETWEEN 1990 AND 2000;
+
+select count(*) from fake_apps;
+
+SELECT COUNT(*) FROM fake_apps WHERE price = 0;
+
+SELECT price, COUNT(*) FROM fake_apps GROUP BY price;
+
+select price, count(*) from fake_apps 
+where downloads > 20000
+group by price;
+
+select sum(downloads) from fake_apps ;
+
+select category, sum(downloads) from fake_apps  group by category;
+
+select name, max(downloads) from fake_apps ;
+
+select name , category, max(downloads) from fake_apps group by category;
+
+select min(downloads) from fake_apps;
+
+select name, category, min(downloads) from fake_apps group by category;
+
+select avg(downloads) from fake_apps;
+
+select name, avg(downloads) from fake_apps group by price;
+
+select price , round(avg(downloads),2) from fake_apps group by price;
+
+select price, round(avg(downloads)) from fake_apps group by price;
+
+create table artists(id integer primary key, name text);
+
+-- inner join -> will combine rows from different tables if the join condition is true.
+
+SELECT
+  *
+FROM
+  albums
+JOIN artists ON
+  albums.artist_id = artists.id;
+
+-- left outer join -> will return every row in the left table, and if the join condition is not met, NULL values are used to fill in the columns from the right table.
+
+SELECT
+  *
+FROM
+  albums
+LEFT JOIN artists ON
+  albums.artist_id = artists.id;
+
+
+SELECT
+  albums.name AS 'Album',
+  albums.year,
+  artists.name AS 'Artist'
+FROM
+  albums
+JOIN artists ON
+  albums.artist_id = artists.id
+WHERE
+  albums.year > 1980;

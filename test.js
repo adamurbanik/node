@@ -1,24 +1,35 @@
-var request = require('request');
-// var r = request.post('http://localhost:8099');
-// process.stdin.pipe(r).pipe(process.stdout);
+"use strict";
 
-// console.log(process.stdin)
-// var through = require('through2');
+const http = require("http");
 
-// var read = through(write);
+const paths = {
+  "deleteItem" : {
+    path: /^\/[0-9]+$/im,
+    method: "DELETE"
+  }
+}
 
-// function write(buffer, _, next) {
+const server = http
+  .createServer()
+  .listen(8080, () => console.log("listening 8080"))
+  .on("request", (req, res) => { console.log(req.url);
+    if (paths.deleteItem.path.test(req.url) && paths.deleteItem.method === req.method) {
+      res.write("Dupa");
+      res.write("Kupa");
+      res.write("Rower");
+      res.end();
+    }
+  });
 
-//   console.log(buffer.toString());
-//   next();
-// }
-
-// process.stdin.pipe(read).pipe(process.stdout);
-
-
-// var request = require('request');
-// var r = request.post('http://localhost:8099', function (err, res, body) {
-//   var allData = '';
-
-// });
-// process.stdin.pipe(r).pipe(process.stdout);
+setTimeout(() => {
+  http.request({
+    port: 8080,
+    method: "DELETE",
+    host: "127.0.0.1",
+    headers: {},
+    path: "/200",
+  }, res => res
+    .on("data", data => console.log(data.toString()))
+    .on("end", () => console.log("Request ended")))
+  .end()
+}, 1000);

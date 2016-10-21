@@ -1,16 +1,16 @@
 ***************** Currying in JavaScript *****
-'use strict'
+  'use strict'
 
-1 
+1
 var identity = function (args) {
   return args;
 };
 module.exports = identity;
 
 
-2 
+2
 var binary = function (firstArg, secondArg) {
-  return firstArg + secondArg ;
+  return firstArg + secondArg;
 };
 module.exports = binary;
 
@@ -24,7 +24,7 @@ module.exports = unary1;
 console.log(unary1(2)(4))
 
 
-4 
+4
 let total = 0;
 let unary = (param) => {
   if (!param) return total;
@@ -46,9 +46,9 @@ var update = function (name, age, tShirtSize) {
 
 var person = { name: 'Kishor', age: 28, tShirtSize: 'L' };
 
-var caller = (object, method, param1, param2, param3)=> method.call(object, param1, param2, param3);
+var caller = (object, method, param1, param2, param3) => method.call(object, param1, param2, param3);
 
-// caller(person, update, 'Sharma', 29, 'XL');
+caller(person, update, 'Sharma', 29, 'XL');
 
 // console.log(person) // => person.name = Sharma, person.age = 29 and person.tShirtSize = XL
 
@@ -81,11 +81,13 @@ function curry(fx) {
 
 module.exports = curry;
 
-var sumFour = curry(function(w, x, y) {
+var sumFour = curry(function (w, x, y) {
   var args = Array.prototype.slice.call(arguments, 0);
   var total = 0;
-  args.forEach((item)=> total += item)
-  return total ;
+  args.forEach((item) => total += item)
+  return total;
 });
 
 console.log(sumFour(10)(10)(10));
+
+

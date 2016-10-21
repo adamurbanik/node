@@ -50,7 +50,7 @@ fs.readdir(process.argv[2], (error, list) => {
 
 //6
 var myModule = require('./module-program.js');
-myModule(process.argv[2], process.argv[3], (error, list) => {
+myModule(process.argv[2], process.argv[3], (error, list) => { 
   if (error) console.log('prints error');
   list.forEach((item) => console.log(item));
 });

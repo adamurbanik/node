@@ -54,3 +54,6 @@ fs.createReadStream(process.argv[2])
   });
 
   transform streams - where chunk is as object or buffer
+
+  JSON.stringify turns a Javascript object into JSON text and stores that JSON text in a string
+  JSON.parse turns a string of JSON text into a Javascript object
